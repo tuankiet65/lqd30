@@ -1,0 +1,40 @@
+.navbar-wrapper .brand-logo {
+	padding-left: 15px;
+}
+
+.btn-facebook {
+	background-color: #4267B2 !important;
+}
+
+#buttons-group > .btn {
+	margin-bottom: 10px;
+	width: 100%;
+	padding-left: 14px;
+	padding-right: 14px;
+}
+
+.cropit-image-input {
+	display: none;
+}
+
+#avatar-cropper > .cropit-preview, .overlay {
+	width: 300px;
+	height: 300px;
+}
+
+.cropit-preview-image {
+	position: absolute;
+}
+
+.overlay {
+	position: absolute;
+}
+
+/* https://scottcheng.github.io/cropit/ */
+.cropit-preview-background {
+  opacity: .2;
+}
+
+input.cropit-image-zoom-input {
+  position: relative;
+}

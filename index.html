@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LQD 30 nam avatar</title>
+        <link rel="stylesheet" type="text/css" href="libraries/materialize/dist/css/materialize.min.css">
+        <link rel="stylesheet" type="text/css" href="libraries/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+    </head>
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="navbar-wrapper">
+                    <a href="#!" class="brand-logo">LQD 30 nam avatar</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul class="right on-med-and-down">
+                        <li class="active"><a href="/">Trang chu</a></li>
+                        <li><a href="https://github.com/tuankiet65/lqd30">Ma nguon</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <h1 class="center-align orange-text">Doi avatar</h1>
+            <div class="row">
+                <div class="col s8">
+                    <div id="avatar-cropper">
+                        <div class="cropit-preview"></div>
+                        <i class="fa fa-picture-o"></i>
+                        <input type="range" class="cropit-image-zoom-input" style="width:30%"/>
+                        <i class="fa fa-picture-o fa-lg"></i>
+                        <input type="file" class="cropit-image-input" />
+                    </div>
+                </div>
+                <div class="col s4" id="buttons-group">
+                    <button class="waves-effect waves-light btn btn-facebook" id="ava-get-facebook">
+                    <i class="fa fa-facebook-official"></i> Lay avatar tu Facebook
+                    </button>
+                    <button class="waves-effect waves-light btn" id="ava-get-custom">
+                    <i class="fa fa-picture-o"></i> Tu chon hinh
+                    </button>
+                    <hr />
+                    <button class="waves-effect waves-light btn" id="ava-save">
+                    <i class="fa fa-download"></i> Luu avatar ve may
+                    </button>
+                    <button class="waves-effect waves-light btn btn-facebook" id="ava-save-facebook">
+                    <i class="fa fa-facebook-official"></i> Dat lam avatar tren Facebook
+                    </button>
+                </div>
+            </div>
+        </div>
+        <script src="libraries/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="libraries/materialize/dist/js/materialize.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="libraries/cropit/dist/jquery.cropit.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/piwik.js" type="text/javascript" charset="utf-8"></script>
+        <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+        <noscript>
+        <img src="//analytics.cabfansub.com/piwik.php?idsite=2" style="border:0;" alt="" />
+        </noscript>
+    </body>
+</html>
