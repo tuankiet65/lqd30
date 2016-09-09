@@ -6,6 +6,14 @@
 	background-color: #4267B2 !important;
 }
 
+.button-tooltip-wrapper {
+	margin-bottom: 10px;
+}
+
+.button-tooltip-wrapper > .btn {
+	width: 100%;
+}
+
 #buttons-group > .btn {
 	margin-bottom: 10px;
 	width: 100%;
@@ -18,8 +26,8 @@
 }
 
 #avatar-cropper > .cropit-preview, .overlay {
-	width: 300px;
-	height: 300px;
+	width: 400px;
+	height: 400px;
 }
 
 .cropit-preview-image {
@@ -30,11 +38,30 @@
 	position: absolute;
 }
 
+.btn-rotate {
+	display: inline;
+	padding-left: 9px;
+	padding-right: 9px;
+	margin-left	: 10px;
+}
+
+.cropit-controls {
+	margin-top: 10px;
+}
+
 /* https://scottcheng.github.io/cropit/ */
 .cropit-preview-background {
-  opacity: .2;
+  opacity: .5;
 }
 
 input.cropit-image-zoom-input {
   position: relative;
+}
+
+input.cropit-image-zoom-input[disabled="disabled"] {
+  opacity: .2;
+}
+
+h1 {
+	margin-top: 17px;
 }

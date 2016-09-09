@@ -1,60 +1,112 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>LQD 30 nam avatar</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+        <title>LQĐ 30 năm avatar</title>
         <link rel="stylesheet" type="text/css" href="libraries/materialize/dist/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="libraries/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="index.css">
     </head>
     <body>
         <div class="navbar-fixed">
             <nav>
                 <div class="navbar-wrapper">
-                    <a href="#!" class="brand-logo">LQD 30 nam avatar</a>
+                    <a href="#!" class="brand-logo">LQĐ 30 năm avatar</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse">
                         <i class="material-icons">menu</i>
                     </a>
-                    <ul class="right on-med-and-down">
-                        <li class="active"><a href="/">Trang chu</a></li>
-                        <li><a href="https://github.com/tuankiet65/lqd30">Ma nguon</a></li>
+                    <ul class="right on-med-and-down hide-on-med-and-down">
+                        <li class="active"><a href="/">Trang chủ</a></li>
+                        <li><a href="https://github.com/tuankiet65/lqd30">Mã nguồn</a></li>
+                        <li><a href="/privacy-policy.html">Chính sách riêng tư</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
         <div class="container">
-            <h1 class="center-align orange-text">Doi avatar</h1>
+            <h1 class="center-align orange-text">Đổi avatar</h1>
             <div class="row">
-                <div class="col s8">
+                <div class="col l7">
                     <div id="avatar-cropper">
                         <div class="cropit-preview"></div>
-                        <i class="fa fa-picture-o"></i>
-                        <input type="range" class="cropit-image-zoom-input" style="width:30%"/>
-                        <i class="fa fa-picture-o fa-lg"></i>
+                        <div class="cropit-controls">
+                            <i class="fa fa-picture-o"></i>
+                            <input type="range" class="cropit-image-zoom-input" style="width:30%"/>
+                            <i class="fa fa-picture-o fa-2x "></i>
+                            <button class="btn waves-effect waves-light btn-rotate" id="cropit-rotate-left">
+                            <i class="fa fa-rotate-left"></i>
+                            </button>
+                            <button class="btn waves-effect waves-light btn-rotate" id="cropit-rotate-right">
+                            <i class="fa fa-rotate-right"></i>
+                            </button>
+                        </div>
                         <input type="file" class="cropit-image-input" />
                     </div>
                 </div>
-                <div class="col s4" id="buttons-group">
-                    <button class="waves-effect waves-light btn btn-facebook" id="ava-get-facebook">
-                    <i class="fa fa-facebook-official"></i> Lay avatar tu Facebook
+                <div class="col l5" id="buttons-group">
+                    <button class="btn btn-facebook tooltipped disabled"
+                    id="ava-load-facebook"
+                    data-position="top"
+                    data-delay="50"
+                    data-tooltip="Hay cho Facebook SDK load xong">
+                    <i class="fa fa-facebook-official"></i> Lấy avatar từ Facebook
                     </button>
-                    <button class="waves-effect waves-light btn" id="ava-get-custom">
-                    <i class="fa fa-picture-o"></i> Tu chon hinh
+                    <button class="waves-effect waves-light btn" id="ava-load-local">
+                    <i class="fa fa-picture-o"></i> Tự chọn hình trong máy
                     </button>
                     <hr />
-                    <button class="waves-effect waves-light btn" id="ava-save">
-                    <i class="fa fa-download"></i> Luu avatar ve may
+                    <button class="waves-effect waves-light btn" id="ava-save-local">
+                    <i class="fa fa-download"></i> Lưu avatar về máy
                     </button>
-                    <button class="waves-effect waves-light btn btn-facebook" id="ava-save-facebook">
-                    <i class="fa fa-facebook-official"></i> Dat lam avatar tren Facebook
-                    </button>
+                    <a class="btn btn-facebook tooltipped disabled modal-trigger"
+                        href="#ava-save-facebook-modal"
+                        id="ava-save-facebook-modal-trigger"
+                        data-position="bottom"
+                        data-delay="50"
+                        data-tooltip="Hay cho Facebook SDK load xong">
+                        <i class="fa fa-facebook-official"></i> Dat lam avatar tren Facebook
+                    </a>
                 </div>
+            </div>
+        </div>
+        <div id="ava-save-facebook-modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Dat avatar tren Facebook</h4>
+                <p>Sau khi nhấn OK thì Facebook sẽ yêu cầu bạn cấp thêm quyền được truy cập vào ảnh của bạn.</p>
+                <p>Quyền này cho phép chương trình đăng avatar lên tài khoản của bạn và chương trình sẽ không bao giờ tải ảnh của bạn về.</p>
+                <p>Vì Facebook không cho phép đặt avatar tự động nên sau khi đăng avatar xong, chương trình sẽ tự động đổi hướng về avatar vừa tạo.
+                Việc của bạn sau đó là đặt ảnh đó làm avatar của bạn.</p>
+                <div class="center" id="ava-save-facebook-progress">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <b>
+                        <span id="status"></span>
+                    </b>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Dong</a>
+                <a href="#!" class="modal-action waves-effect waves-green btn-flat" id="ava-save-facebook">OK</a>
             </div>
         </div>
         <script src="libraries/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="libraries/materialize/dist/js/materialize.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="libraries/cropit/dist/jquery.cropit.js" type="text/javascript" charset="utf-8"></script>
-        <script src="js/piwik.js" type="text/javascript" charset="utf-8"></script>
-        <script src="js/main.js" type="text/javascript" charset="utf-8"></script>
+        <script src="libraries/downloadjs/download.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="libraries/raven-js/dist/raven.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="index.js" type="text/javascript" charset="utf-8"></script>
         <noscript>
         <img src="//analytics.cabfansub.com/piwik.php?idsite=2" style="border:0;" alt="" />
         </noscript>
