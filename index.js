@@ -100,7 +100,7 @@ $("#avatar-cropper").cropit({
 });
 
 $("#avatar-cropper").find(".cropit-preview-image-container").append(
-    '<img src="/overlay.png" class="overlay" id="overlay" />');
+    '<img src="overlay.png" class="overlay" id="overlay" />');
 
 $("#ava-load-local").on('click', function() {
     $(".cropit-image-input").click();
@@ -113,7 +113,7 @@ function imgExport() {
     });
 
     overlay = new Image();
-    overlay.src = "/overlay.png";
+    overlay.src = "overlay.png";
 
     canvas = document.createElement("canvas");
     canvas.setAttribute("width", 600);
