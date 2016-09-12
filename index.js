@@ -1,3 +1,16 @@
+$(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
+    Raven.captureMessage(thrownError || jqXHR.statusText, {
+        extra: {
+            type: ajaxSettings.type,
+            url: ajaxSettings.url,
+            data: ajaxSettings.data,
+            status: jqXHR.status,
+            error: thrownError || jqXHR.statusText,
+            response: jqXHR.responseText.substring(0, 100)
+        }
+    });
+});
+
 var _paq = _paq || [];
 _paq.push(["setDomains", ["*.lqd30.tuankiet65.moe"]]);
 _paq.push(['trackPageView']);
@@ -70,6 +83,7 @@ $("#ava-load-facebook").on('click', function() {
         if (response.status == "connected") {
             Materialize.toast("Dang nhap thanh cong.", 5000, "rounded");
             loadAvatarFromFacebook();
+            ravenSetUserInfo();
         } else {
             Materialize.toast("Dang nhap that bai, vui long dang nhap lai hoac tu chon avatar.", 5000, "rounded");
             console.log(response)
@@ -78,6 +92,10 @@ $("#ava-load-facebook").on('click', function() {
         $("#ava-load-facebook").html("<i class=\"fa fa-facebook-official\"></i> Lay avatar tu Facebook");
     })
 })
+
+function ravenSetUserInfo(){
+    Raven.setUserContext(FB.getAuthResponse())
+}
 
 function loadAvatarFromFacebook() {
     FB.api("/me/picture", {
@@ -129,7 +147,7 @@ function imgExport() {
     canvasContext.drawImage(image, 0, 0);
     canvasContext.drawImage(overlay, 0, 0);
 
-    return canvas.toDataURL();
+    return canvas.toDataURL("image/png");
 }
 
 $("#ava-save-local").on("click", function() {
@@ -139,10 +157,10 @@ $("#ava-save-local").on("click", function() {
 
 $("#ava-save-facebook").on("click", function() {
     $("#ava-save-facebook-progress").show();
-    $("#status").text("Dang nhap...");
+    $("#status").text("Đang đăng nhập...");
     FB.login(function(response) {
         if (response.status == "connected") {
-            $("#status").text("Dang tao album...");
+            $("#status").text("Đang tạo album...");
             FB.api("/me/albums", "POST", {
                 name: "LQD30",
                 privacy: {
@@ -150,7 +168,7 @@ $("#ava-save-facebook").on("click", function() {
                 },
                 is_default: true
             }, function(response) {
-                $("#status").text("Dang dang anh...");
+                $("#status").text("Đang đăng ảnh...");
 
                 album_id = response.id;
 
@@ -172,14 +190,15 @@ $("#ava-save-facebook").on("click", function() {
                     dataType: "json",
                     success: function(resp) {
                         console.log(resp);
-                        $("#status").text("Da dang anh, ban se duoc chuyen toi trong 2 giay");
+                        $("#status").text("Đã đăng ảnh, bạn sẽ được chuyển tới trong giây lát...");
                         setTimeout(function(id){
                             window.location = "https://facebook.com/photo.php?fbid="+id; 
-                        }, 2000, resp.id)
+                        }, 1000, resp.id)
                         
                     },
                     error: function(resp) {
-                        console.log(resp);
+                        $("#status").text("Đã gặp lỗi: "+resp);
+                        throw resp;
                     }
                 })
             })
@@ -220,3 +239,5 @@ $("#cropit-rotate-left").on("click", function() {
  $("#ava-save-facebook-modal-trigger").on("click", function(){
     $("#ava-save-facebook-progress").hide();
  })
+
+$('.button-collapse').sideNav();

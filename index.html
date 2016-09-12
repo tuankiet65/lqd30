@@ -10,16 +10,21 @@
     </head>
     <body>
         <div class="navbar-fixed">
-            <nav>
-                <div class="navbar-wrapper">
+            <nav class="light-blue lighten-1" role="navigation">
+                <div class="navbar-wrapper container">
                     <a href="#!" class="brand-logo">LQĐ 30 năm avatar</a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse">
-                        <i class="material-icons">menu</i>
+                    <a href="#" data-activates="mobile-nav" class="button-collapse">
+                        <i class="fa fa-bars"></i>
                     </a>
-                    <ul class="right on-med-and-down hide-on-med-and-down">
+                    <ul class="right hide-on-med-and-down">
                         <li class="active"><a href="/">Trang chủ</a></li>
                         <li><a href="https://github.com/tuankiet65/lqd30">Mã nguồn</a></li>
-                        <li><a href="/privacy-policy.html">Chính sách riêng tư</a></li>
+                        <li><a href="/privacy_policy.html">Chính sách riêng tư</a></li>
+                    </ul>
+                    <ul class="side-nav" id="mobile-nav">
+                        <li class="active"><a href="/">Trang chủ</a></li>
+                        <li><a href="https://github.com/tuankiet65/lqd30">Mã nguồn</a></li>
+                        <li><a href="/privacy_policy.html">Chính sách riêng tư</a></li>
                     </ul>
                 </div>
             </nav>
@@ -45,6 +50,7 @@
                     </div>
                 </div>
                 <div class="col l5" id="buttons-group">
+                    <div class="buttons-group-sep hide-on-large-only" style="height:10px;"></div>
                     <button class="btn btn-facebook tooltipped disabled"
                     id="ava-load-facebook"
                     data-position="top"
@@ -65,14 +71,14 @@
                         data-position="bottom"
                         data-delay="50"
                         data-tooltip="Hay cho Facebook SDK load xong">
-                        <i class="fa fa-facebook-official"></i> Dat lam avatar tren Facebook
+                        <i class="fa fa-facebook-official"></i> Đăng avatar lên Facebook
                     </a>
                 </div>
             </div>
         </div>
         <div id="ava-save-facebook-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
-                <h4>Dat avatar tren Facebook</h4>
+                <h4>Đăng avatar lên Facebook</h4>
                 <p>Sau khi nhấn OK thì Facebook sẽ yêu cầu bạn cấp thêm quyền được truy cập vào ảnh của bạn.</p>
                 <p>Quyền này cho phép chương trình đăng avatar lên tài khoản của bạn và chương trình sẽ không bao giờ tải ảnh của bạn về.</p>
                 <p>Vì Facebook không cho phép đặt avatar tự động nên sau khi đăng avatar xong, chương trình sẽ tự động đổi hướng về avatar vừa tạo.
@@ -91,9 +97,8 @@
                             </div>
                         </div>
                     </div>
-                    <b>
-                        <span id="status"></span>
-                    </b>
+                    <br />
+                    <b id="status"></b>
                 </div>
             </div>
             <div class="modal-footer">
