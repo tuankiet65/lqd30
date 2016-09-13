@@ -48,6 +48,11 @@
 	position: absolute;
 }
 
+.separator {
+	padding-bottom: 5px;
+	text-align: center;
+}
+
 .cropit-preview-image {
 	position: absolute;
 }
