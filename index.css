@@ -25,16 +25,30 @@
 	display: none;
 }
 
-#avatar-cropper > .cropit-preview, .overlay {
-	width: 400px;
-	height: 400px;
+#avatar-cropper > .cropit-preview {
+	position: relative;
+	width: 230px;
+	height: 230px;
 }
 
-.cropit-preview-image {
+#overlay, #preview-container {
+	position: relative;
+	width: 400px;
+	height: 400px;
+	z-index: 1;
+}
+
+.cropit-preview {
+	top: 66px;
+	left: 144px;
+}
+
+#overlay {
+	pointer-events: none;
 	position: absolute;
 }
 
-.overlay {
+.cropit-preview-image {
 	position: absolute;
 }
 
@@ -47,6 +61,25 @@
 
 .cropit-controls {
 	margin-top: 10px;
+}
+
+#ava-choose-overlay-modal img {
+	max-width: 250px;
+}
+
+.enlarge-on-hover {
+}
+
+.enlarge-on-hover:nth-child(2){
+	position: relative;
+	left: 20px;
+}
+
+
+#ava-choose-overlay-modal div.hoverable {
+	cursor: pointer;
+	display: inline-block;
+	margin: 20px;
 }
 
 /* https://scottcheng.github.io/cropit/ */

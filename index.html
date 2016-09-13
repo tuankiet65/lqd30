@@ -34,7 +34,10 @@
             <div class="row">
                 <div class="col l7">
                     <div id="avatar-cropper">
-                        <div class="cropit-preview"></div>
+                        <div id="preview-container">
+                            <img src="img/material.png" id="overlay"/>
+                            <div class="cropit-preview"></div>
+                        </div>
                         <div class="cropit-controls">
                             <i class="fa fa-picture-o"></i>
                             <input type="range" class="cropit-image-zoom-input" style="width:30%"/>
@@ -50,6 +53,12 @@
                     </div>
                 </div>
                 <div class="col l5" id="buttons-group">
+                    <button class="waves-effect waves-light btn modal-trigger" 
+                            id="ava-choose-overlay-trigger"
+                            href="#ava-choose-overlay-modal">
+                    <i class="fa fa-picture-o"></i> Chọn khung
+                    </button>
+                    <hr />
                     <div class="buttons-group-sep hide-on-large-only" style="height:10px;"></div>
                     <button class="btn btn-facebook tooltipped disabled"
                     id="ava-load-facebook"
@@ -102,8 +111,24 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Dong</a>
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Đóng</a>
                 <a href="#!" class="modal-action waves-effect waves-green btn-flat" id="ava-save-facebook">OK</a>
+            </div>
+        </div>
+        <div id="ava-choose-overlay-modal" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Chọn khung</h4>
+                <div class="center">
+                    <div class="card-panel white hoverable" id="ava-choose-overlay-blue-drop">
+                        <img src="img/blue_drop.png" />
+                    </div>
+                    <div class="card-panel white hoverable" id="ava-choose-overlay-material">
+                        <img src="img/material~.png" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Đóng</a>
             </div>
         </div>
         <script src="libraries/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>

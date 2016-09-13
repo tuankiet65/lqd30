@@ -1,3 +1,5 @@
+var overlaySrc = "img/material_600.png";
+
 $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     Raven.captureMessage(thrownError || jqXHR.statusText, {
         extra: {
@@ -100,25 +102,22 @@ function ravenSetUserInfo(){
 function loadAvatarFromFacebook() {
     FB.api("/me/picture", {
         redirect: false,
-        width: 600,
-        height: 600
+        width: 400,
+        height: 400
     }, function(response) {
         $("#avatar-cropper").cropit("imageSrc", response.data.url);
     })
 }
 
 $("#avatar-cropper").cropit({
-    imageBackground: true,
-    imageBackgroundBorderWidth: 50,
-    minZoom: "fit",
+    width: 230,
+    height: 230,
+    minZoom: "fill",
     maxZoom: 2,
     freeMove: true,
     smallImage: "stretch",
-    exportZoom: 1.5,
+    exportZoom: 1.5
 });
-
-$("#avatar-cropper").find(".cropit-preview-image-container").append(
-    '<img src="overlay.png" class="overlay" id="overlay" />');
 
 $("#ava-load-local").on('click', function() {
     $(".cropit-image-input").click();
@@ -131,7 +130,7 @@ function imgExport() {
     });
 
     overlay = new Image();
-    overlay.src = "overlay.png";
+    overlay.src = overlaySrc;
 
     canvas = document.createElement("canvas");
     canvas.setAttribute("width", 600);
@@ -144,7 +143,7 @@ function imgExport() {
     canvasContext.fillStyle = "#fff",
     canvasContext.fillRect(0, 0, 600, 600);
 
-    canvasContext.drawImage(image, 0, 0);
+    canvasContext.drawImage(image, 216, 99);
     canvasContext.drawImage(overlay, 0, 0);
 
     return canvas.toDataURL("image/png");
@@ -235,9 +234,25 @@ $("#cropit-rotate-left").on("click", function() {
     $("#avatar-cropper").cropit("rotateCCW")
 })
 
- $("#ava-save-facebook-modal-trigger").leanModal();
- $("#ava-save-facebook-modal-trigger").on("click", function(){
+$(".modal-trigger").leanModal();
+$("#ava-save-facebook-modal-trigger").on("click", function(){
     $("#ava-save-facebook-progress").hide();
- })
+})
 
 $('.button-collapse').sideNav();
+
+$("#ava-choose-overlay-blue-drop").on("click", function(){
+    overlaySrc = "img/blue_drop.png";
+    $("#overlay").prop("src", overlaySrc);
+    $("#ava-choose-overlay-modal").closeModal();
+})
+
+$("#ava-choose-overlay-material").on("click", function(){
+    overlaySrc = "img/material.png";
+    $("#overlay").prop("src", overlaySrc);
+    $("#ava-choose-overlay-modal").closeModal();
+})
+
+$(function(){
+    $("#ava-choose-overlay-modal").openModal();  
+})
