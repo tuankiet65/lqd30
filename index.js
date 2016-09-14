@@ -226,6 +226,7 @@ $("#ava-save-facebook").on("click", function() {
                     type: "POST",
                     dataType: "json",
                     success: function(resp) {
+                        _paq.push(["trackEvent", "save-avatar", "facebook-success"]);
                         $("#ava-save-facebook-progress div").hide();
                         $("#status").text("Đã đăng ảnh, bạn sẽ được chuyển tới trong giây lát...");
                         setTimeout(function(id){
