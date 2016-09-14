@@ -224,7 +224,7 @@ $("#ava-save-facebook").on("click", function() {
                     error: function(resp) {
                         $("#ava-save-facebook-progress div").hide();
                         $("#status").text("Đã gặp lỗi: "+JSON.stringify(resp));
-                        throw new Error(resp);
+                        throw new Error(JSON.stringify(resp));
                     }
                 })
             })
