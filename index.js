@@ -92,6 +92,16 @@ function enableButton(index, old) {
     return result;
 }
 
+function disableButton(index, old) {
+    var classList = old.split(" ");
+    var result = "";
+    for (i = 0; i < classList.length; i++)
+        if (classList[i] != "waves-effect" || classList[i] != "waves-light")
+            result += classList[i] + " ";
+    result += "disabled";
+    return result;
+}
+
 $("#ava-load-facebook").on('click', function() {
     if (isDisabled(this))
         return false;
@@ -170,6 +180,8 @@ function imgExport() {
 }
 
 $("#ava-save-local").on("click", function() {
+    if (isDisabled(this))
+        return;
     _paq.push(["trackEvent", "save-avatar", "local"]);
     filename = "LQD30 - " + Date.now().toString() + ".png";
     download(imgExport(), filename, "image/png");
@@ -285,6 +297,20 @@ $("#ava-choose-overlay-material").on("click", function(){
 
 $(function(){
     setTimeout(function(){
-        $("#ava-choose-overlay-modal").openModal(); 
-    }, 500);
+        $("#ava-choose-overlay-modal").openModal();
+        detectIOSDevice();
+    }, 250);
 })
+
+function detectIOSDevice(){
+    // If the device is running iOS, disable local save
+    console.log(navigator.userAgent);
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
+        console.log("triggered");
+        $("#ava-save-local").tooltip({
+            delay: 50,
+            tooltip: "Các thiết bị chạy iOS không thể lưu về máy"
+        })
+       $("#ava-save-local").attr("class", disableButton);
+    }
+}
