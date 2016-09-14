@@ -1,5 +1,8 @@
-var overlaySrc = "img/material_600.png";
+var overlaySrc = "img/material.png";
 
+/*******************
+    Raven configuration
+*******************/
 $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     Raven.captureMessage(thrownError || jqXHR.statusText, {
         extra: {
@@ -13,12 +16,21 @@ $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     });
 });
 
+Raven.config('https://3a4a387f63c14060a084ee158cf41b4a@sentry.io/97386').install();
+
+function ravenSetUserInfo(){
+    Raven.setUserContext(FB.getAuthResponse())
+}
+
+/*******************
+    Piwik configuration
+*******************/
 var _paq = _paq || [];
 _paq.push(["setDomains", ["*.lqd30.tuankiet65.moe"]]);
 _paq.push(['trackPageView']);
 _paq.push(['enableLinkTracking']);
 (function() {
-    var u = "//analytics.cabfansub.com/";
+    var u = "//analytics-cabfs.rhcloud.com/";
     _paq.push(['setTrackerUrl', u + 'piwik.php']);
     _paq.push(['setSiteId', '2']);
     var d = document,
@@ -31,8 +43,23 @@ _paq.push(['enableLinkTracking']);
     s.parentNode.insertBefore(g, s);
 })();
 
-Raven.config('https://3a4a387f63c14060a084ee158cf41b4a@sentry.io/97386').install();
+/*******************
+    Facebook JS SDK configuration
+*******************/
 
+// Async load the SDK
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+        return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "//connect.facebook.net/vi_VN/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+// Function to call after initialization
 window.fbAsyncInit = function() {
     FB.init({
         appId: '789687234501641',
@@ -46,17 +73,6 @@ window.fbAsyncInit = function() {
     $("#ava-save-facebook-modal-trigger").attr("class", enableButton);
     $("#ava-save-facebook-modal-trigger").tooltip("remove");
 };
-
-(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-        return;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/vi_VN/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
 
 function isDisabled(element) {
     var classList = element.className.split(" ");
@@ -80,24 +96,20 @@ $("#ava-load-facebook").on('click', function() {
     if (isDisabled(this))
         return false;
     $("#ava-load-facebook").prop("disabled", true);
-    $("#ava-load-facebook").html("Dang dang nhap");
+    $("#ava-load-facebook").html("Đang đăng nhập...");
     FB.login(function(response) {
         if (response.status == "connected") {
-            Materialize.toast("Dang nhap thanh cong.", 5000, "rounded");
+            Materialize.toast("Đang nhập thành công.", 5000, "rounded");
             loadAvatarFromFacebook();
             ravenSetUserInfo();
         } else {
-            Materialize.toast("Dang nhap that bai, vui long dang nhap lai hoac tu chon avatar.", 5000, "rounded");
+            Materialize.toast("Đăng nhập thất bại, vui lòng thử lại hoặc tự chọn avatar trong máy", 5000, "rounded");
             console.log(response)
         }
         $("#ava-load-facebook").prop("disabled", false);
-        $("#ava-load-facebook").html("<i class=\"fa fa-facebook-official\"></i> Lay avatar tu Facebook");
+        $("#ava-load-facebook").html("<i class=\"fa fa-facebook-official\"></i> Lấy avatar từ Facebook");
     })
 })
-
-function ravenSetUserInfo(){
-    Raven.setUserContext(FB.getAuthResponse())
-}
 
 function loadAvatarFromFacebook() {
     FB.api("/me/picture", {
@@ -107,6 +119,7 @@ function loadAvatarFromFacebook() {
     }, function(response) {
         $("#avatar-cropper").cropit("imageSrc", response.data.url);
     })
+    _paq.push(["trackEvent", "load-avatar", "facebook"]);
 }
 
 $("#avatar-cropper").cropit({
@@ -114,12 +127,19 @@ $("#avatar-cropper").cropit({
     height: 230,
     minZoom: "fill",
     maxZoom: 2,
-    freeMove: true,
     smallImage: "stretch",
-    exportZoom: 1.5
+    exportZoom: 1.5,
+    onImageLoaded: function(){
+        $("#direction-wrapper").hide();
+    },
+    onImageError: function(err, num, msg){
+        Materialize.toast("Load ảnh thất bại.", 5000, "rounded");
+        throw new Error(msg);
+    }
 });
 
 $("#ava-load-local").on('click', function() {
+    _paq.push(["trackEvent", "load-avatar", "local"]);
     $(".cropit-image-input").click();
 });
 
@@ -150,11 +170,13 @@ function imgExport() {
 }
 
 $("#ava-save-local").on("click", function() {
+    _paq.push(["trackEvent", "save-avatar", "local"]);
     filename = "LQD30 - " + Date.now().toString() + ".png";
     download(imgExport(), filename, "image/png");
 })
 
 $("#ava-save-facebook").on("click", function() {
+    _paq.push(["trackEvent", "save-avatar", "facebook"]);
     $("#ava-save-facebook-progress").show();
     $("#status").text("Đang đăng nhập...");
     FB.login(function(response) {
@@ -167,6 +189,10 @@ $("#ava-save-facebook").on("click", function() {
                 },
                 is_default: true
             }, function(response) {
+                if (typeof response.id == "undefined"){
+                    throw new Error("Invalid response, id not found. "+JSON.stringify(response));
+                }
+                
                 $("#status").text("Đang đăng ảnh...");
 
                 album_id = response.id;
@@ -188,7 +214,7 @@ $("#ava-save-facebook").on("click", function() {
                     type: "POST",
                     dataType: "json",
                     success: function(resp) {
-                        console.log(resp);
+                        $("#ava-save-facebook-progress div").hide();
                         $("#status").text("Đã đăng ảnh, bạn sẽ được chuyển tới trong giây lát...");
                         setTimeout(function(id){
                             window.location = "https://facebook.com/photo.php?fbid="+id; 
@@ -196,13 +222,15 @@ $("#ava-save-facebook").on("click", function() {
                         
                     },
                     error: function(resp) {
-                        $("#status").text("Đã gặp lỗi: "+resp);
-                        throw resp;
+                        $("#ava-save-facebook-progress div").hide();
+                        $("#status").text("Đã gặp lỗi: "+JSON.stringify(resp));
+                        throw new Error(resp);
                     }
                 })
             })
         } else {
-            $("#status").text("Dang nhap that bai");
+            $("#ava-save-facebook-progress div").hide();
+            $("#status").text("Đăng nhập thất bại, hãy thử lại.");
         }
     }, {
         scope: "publish_actions,user_photos"
@@ -244,15 +272,19 @@ $('.button-collapse').sideNav();
 $("#ava-choose-overlay-blue-drop").on("click", function(){
     overlaySrc = "img/blue_drop.png";
     $("#overlay").prop("src", overlaySrc);
+    _paq.push(["trackEvent", "overlay", "blue-drop"]);
     $("#ava-choose-overlay-modal").closeModal();
 })
 
 $("#ava-choose-overlay-material").on("click", function(){
     overlaySrc = "img/material.png";
     $("#overlay").prop("src", overlaySrc);
+    _paq.push(["trackEvent", "overlay", "material"]);
     $("#ava-choose-overlay-modal").closeModal();
 })
 
 $(function(){
-    $("#ava-choose-overlay-modal").openModal();  
+    setTimeout(function(){
+        $("#ava-choose-overlay-modal").openModal(); 
+    }, 500);
 })

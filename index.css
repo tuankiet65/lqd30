@@ -25,27 +25,45 @@
 	display: none;
 }
 
-#avatar-cropper > .cropit-preview {
+#avatar-cropper .cropit-preview {
 	position: relative;
 	width: 230px;
 	height: 230px;
 }
 
-#overlay, #preview-container {
-	position: relative;
+#overlay, #preview {
 	width: 400px;
 	height: 400px;
 	z-index: 1;
+	position: absolute;
+}
+
+#overlay {
+	pointer-events: none;
+}
+
+#direction-wrapper {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding: 20px;
+	z-index: 2;
+	font-size: 38px;
+	background: rgba(255, 255, 255, 0.8);
+	pointer-events: none;
+}
+
+#direction-wrapper > div {
+	pointer-events: none;	
+}
+
+#preview {
+	position: relative;
 }
 
 .cropit-preview {
 	top: 66px;
 	left: 144px;
-}
-
-#overlay {
-	pointer-events: none;
-	position: absolute;
 }
 
 .separator {
@@ -68,32 +86,34 @@
 	margin-top: 10px;
 }
 
-#ava-choose-overlay-modal img {
+.buttons-group-sep {
+	height: 10px;
+}
+
+.ava-choice {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.ava-choice > img {
 	max-width: 250px;
 }
 
-.enlarge-on-hover {
+.ava-choice:nth-child(1) {
+	margin-right: 20px;
 }
 
-.enlarge-on-hover:nth-child(2){
-	position: relative;
-	left: 20px;
+#direction-loading {
+	display: none;
 }
 
-
-#ava-choose-overlay-modal div.hoverable {
-	cursor: pointer;
-	display: inline-block;
-	margin: 20px;
+.page-footer {
+    padding-top: 0px !important;
 }
-
 /* https://scottcheng.github.io/cropit/ */
-.cropit-preview-background {
-  opacity: .5;
-}
-
 input.cropit-image-zoom-input {
-  position: relative;
+    position: relative;
+    width: 30%;
 }
 
 input.cropit-image-zoom-input[disabled="disabled"] {

@@ -12,17 +12,19 @@
         <div class="navbar-fixed">
             <nav class="light-blue lighten-1" role="navigation">
                 <div class="navbar-wrapper container">
-                    <a href="#!" class="brand-logo">LQĐ 30 năm avatar</a>
+                    <a href="/" class="brand-logo">LQĐ 30 năm avatar</a>
                     <a href="#" data-activates="mobile-nav" class="button-collapse">
                         <i class="fa fa-bars"></i>
                     </a>
                     <ul class="right hide-on-med-and-down">
                         <li class="active"><a href="/">Trang chủ</a></li>
+                        <li><a href="source">File PSD</a></li>
                         <li><a href="https://github.com/tuankiet65/lqd30">Mã nguồn</a></li>
-                        <li><a href="/privacy_policy.html">Chính sách riêng tư</a></li>
+                        <li><a href="privacy_policy.html">Chính sách riêng tư</a></li>
                     </ul>
                     <ul class="side-nav" id="mobile-nav">
                         <li class="active"><a href="/">Trang chủ</a></li>
+                        <li><a href="source">File PSD</a></li>
                         <li><a href="https://github.com/tuankiet65/lqd30">Mã nguồn</a></li>
                         <li><a href="/privacy_policy.html">Chính sách riêng tư</a></li>
                     </ul>
@@ -34,13 +36,18 @@
             <div class="row">
                 <div class="col l7">
                     <div id="avatar-cropper">
-                        <div id="preview-container">
+                        <div id="preview">
+                            <div id="direction-wrapper" class="valign-wrapper">
+                                <div class="valign center grey-text text-darken-1">
+                                    Hãy nhập avatar từ Facebook hoặc chọn avatar trong máy
+                                </div>
+                            </div>
                             <img src="img/material.png" id="overlay"/>
                             <div class="cropit-preview"></div>
                         </div>
                         <div class="cropit-controls">
                             <i class="fa fa-picture-o"></i>
-                            <input type="range" class="cropit-image-zoom-input" style="width:30%"/>
+                            <input type="range" class="cropit-image-zoom-input" style="width:30%" disabled="disabled"/>
                             <i class="fa fa-picture-o fa-2x "></i>
                             <button class="btn waves-effect waves-light btn-rotate" id="cropit-rotate-left">
                             <i class="fa fa-rotate-left"></i>
@@ -53,7 +60,7 @@
                     </div>
                 </div>
                 <div class="col l5" id="buttons-group">
-                    <div class="buttons-group-sep hide-on-large-only" style="height:10px;"></div>
+                    <div class="buttons-group-sep hide-on-large-only"></div>
                     <button class="waves-effect waves-light btn modal-trigger" 
                             id="ava-choose-overlay-trigger"
                             href="#ava-choose-overlay-modal">
@@ -123,11 +130,11 @@
             <div class="modal-content">
                 <h4>Chọn khung</h4>
                 <div class="center">
-                    <div class="card-panel white hoverable" id="ava-choose-overlay-blue-drop">
-                        <img src="img/blue_drop.png" />
-                    </div>
-                    <div class="card-panel white hoverable" id="ava-choose-overlay-material">
+                    <div class="card-panel white hoverable ava-choice" id="ava-choose-overlay-material">
                         <img src="img/material.png" />
+                    </div>
+                    <div class="card-panel white hoverable ava-choice" id="ava-choose-overlay-blue-drop">
+                        <img src="img/blue_drop.png" />
                     </div>
                 </div>
             </div>
@@ -135,6 +142,14 @@
                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Đóng</a>
             </div>
         </div>
+        <footer class="page-footer">
+            <div class="footer-copyright">
+                <div class="container">
+                Trang web được thiết kế bởi Hồ Tuấn Kiệt. Khung được thiết kế bởi Nguyễn Văn Trí.
+                </div>
+            </div>
+          </div>
+        </footer>
         <script src="libraries/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="libraries/materialize/dist/js/materialize.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="libraries/cropit/dist/jquery.cropit.js" type="text/javascript" charset="utf-8"></script>
