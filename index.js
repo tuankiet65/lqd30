@@ -1,4 +1,4 @@
-var overlaySrc = "img/material.png";
+var overlaySrc = "img/material.png", selected = false;
 
 /*******************
     Raven configuration
@@ -109,11 +109,11 @@ $("#ava-load-facebook").on('click', function() {
     $("#ava-load-facebook").html("Đang đăng nhập...");
     FB.login(function(response) {
         if (response.status == "connected") {
-            Materialize.toast("Đang nhập thành công.", 5000, "rounded");
+            Materialize.toast("Đang nhập thành công.", 5000);
             loadAvatarFromFacebook();
             ravenSetUserInfo();
         } else {
-            Materialize.toast("Đăng nhập thất bại, vui lòng thử lại hoặc tự chọn avatar trong máy", 5000, "rounded");
+            Materialize.toast("Đăng nhập thất bại, vui lòng thử lại hoặc tự chọn avatar trong máy", 5000);
             console.log(response)
         }
         $("#ava-load-facebook").prop("disabled", false);
@@ -141,9 +141,10 @@ $("#avatar-cropper").cropit({
     exportZoom: 1.5,
     onImageLoaded: function(){
         $("#direction-wrapper").hide();
+        selected = true;
     },
     onImageError: function(err, num, msg){
-        Materialize.toast("Load ảnh thất bại.", 5000, "rounded");
+        Materialize.toast("Load ảnh thất bại.", 5000);
         throw new Error(msg);
     }
 });
@@ -275,9 +276,11 @@ $("#cropit-rotate-left").on("click", function() {
     $("#avatar-cropper").cropit("rotateCCW")
 })
 
-$(".modal-trigger").leanModal();
 $("#ava-save-facebook-modal-trigger").on("click", function(){
+    if (isDisabled(this))
+        return;
     $("#ava-save-facebook-progress").hide();
+    $("#ava-save-facebook-modal").openModal();
 })
 
 $('.button-collapse').sideNav();
@@ -305,9 +308,7 @@ $(function(){
 
 function detectIOSDevice(){
     // If the device is running iOS, disable local save
-    console.log(navigator.userAgent);
     if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream){
-        console.log("triggered");
         $("#ava-save-local").tooltip({
             delay: 50,
             tooltip: "Các thiết bị chạy iOS không thể lưu về máy"
@@ -315,3 +316,5 @@ function detectIOSDevice(){
        $("#ava-save-local").attr("class", disableButton);
     }
 }
+
+$("#ava-choose-overlay-trigger").leanModal();
