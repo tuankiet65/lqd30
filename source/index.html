@@ -101,23 +101,24 @@
     <script src="../libraries/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="../libraries/materialize/dist/js/materialize.min.js" type="text/javascript" charset="utf-8"></script>
     <script>
-    var _paq = _paq || [];
-    _paq.push(["setDomains", ["*.lqd30.tuankiet65.moe"]]);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-        var u = "//analytics-cabfs.rhcloud.com/";
-        _paq.push(['setTrackerUrl', u + 'piwik.php']);
-        _paq.push(['setSiteId', '2']);
-        var d = document,
-            g = d.createElement('script'),
-            s = d.getElementsByTagName('script')[0];
-        g.type = 'text/javascript';
-        g.async = true;
-        g.defer = true;
-        g.src = u + 'piwik.js';
-        s.parentNode.insertBefore(g, s);
-    })();
+        var _paq = _paq || [];
+        _paq.push(["setDomains", ["*.lqd30.tuankiet65.moe"]]);
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u = "//analytics-cabfs.rhcloud.com/";
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
+            _paq.push(['setSiteId', '2']);
+            var d = document,
+                g = d.createElement('script'),
+                s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.async = true;
+            g.defer = true;
+            g.src = u + 'piwik.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+        $('.button-collapse').sideNav();
     </script>
     <noscript>
     <img src="//analytics.cabfansub.com/piwik.php?idsite=2" style="border:0;" alt="" />
