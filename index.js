@@ -201,7 +201,8 @@ $("#ava-save-facebook").on("click", function() {
                 is_default: true
             }, function(response) {
                 if (typeof response.error != "undefined"){
-                    if (response.error.code == "200") {
+                    if (response.error.type == "OAuthException" &&
+                        (response.error.code == 200 || response.error.code == 10)) {
                         $("#ava-save-facebook-progress div").hide();
                         $("#status").html("Bạn phải đồng ý cho phép ứng dụng đăng lên Facebook của bạn.<br />\
                                            Hãy nhấn OK để đăng nhập lại và cấp quyền cho ứng dụng.");
