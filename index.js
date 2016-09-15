@@ -1,4 +1,4 @@
-var overlaySrc = "img/material.png", selected = false;
+var overlaySrc = "img/material.png";
 
 /*******************
     Raven configuration
@@ -99,15 +99,13 @@ $("#ava-load-facebook").on('click', function() {
     $("#ava-load-facebook").html("Đang đăng nhập...");
     FB.login(function(response) {
         if (response.status == "connected") {
-            Materialize.toast("Đang nhập thành công.", 5000);
+            Materialize.toast("Đăng nhập thành công.", 5000);
             loadAvatarFromFacebook();
             ravenSetUserInfo();
         } else {
             Materialize.toast("Đăng nhập thất bại, vui lòng thử lại hoặc tự chọn avatar trong máy", 5000);
             console.log(response)
         }
-        $("#ava-load-facebook").prop("disabled", false);
-        $("#ava-load-facebook").html("<i class=\"fa fa-facebook-official\"></i> Lấy avatar từ Facebook");
     })
 })
 
@@ -131,7 +129,8 @@ $("#avatar-cropper").cropit({
     exportZoom: 1.5,
     onImageLoaded: function(){
         $("#direction-wrapper").hide();
-        selected = true;
+        $("#ava-load-facebook").prop("disabled", false);
+        $("#ava-load-facebook").html("<i class=\"fa fa-facebook-official\"></i> Lấy avatar từ Facebook");
     },
     onImageError: function(err, num, msg){
         Materialize.toast("Load ảnh thất bại.", 5000);
@@ -145,19 +144,19 @@ $("#ava-load-local").on('click', function() {
 });
 
 function imgExport() {
-    image = new Image();
+    var image = new Image();
     image.src = $("#avatar-cropper").cropit('export', {
-        type: "image/png",
+        type: "image/png"
     });
 
-    overlay = new Image();
+    var overlay = new Image();
     overlay.src = overlaySrc;
 
-    canvas = document.createElement("canvas");
+    var canvas = document.createElement("canvas");
     canvas.setAttribute("width", 600);
     canvas.setAttribute("height", 600);
 
-    canvasContext = canvas.getContext("2d", {
+    var canvasContext = canvas.getContext("2d", {
         "alpha": false
     });
 
@@ -181,6 +180,10 @@ $("#ava-save-local").on("click", function() {
         $("#ios-save-result").prop("src", imgExport())
         $("#ios-save-modal").openModal();
     } else {
+        // For whatever reason the image has to be exported twice in Firefox
+        // The first export won't have the underlying image
+        // Dirty hack but it works so I don't care
+        imgExport();
         download(imgExport(), filename, "image/png");
     }
 })
@@ -198,6 +201,7 @@ $("#ava-save-facebook").on("click", function() {
                 privacy: {
                     value: "EVERYONE"
                 },
+
                 is_default: true
             }, function(response) {
                 if (typeof response.error != "undefined"){
@@ -219,6 +223,7 @@ $("#ava-save-facebook").on("click", function() {
                 access_token = FB.getAuthResponse().accessToken;
 
                 data = new FormData();
+                imgExport();
                 data.append("source", dataURItoBlob(imgExport()));
                 data.append("message", "");
                 data.append("no_story", "true");
