@@ -188,6 +188,7 @@ $("#ava-save-local").on("click", function() {
 $("#ava-save-facebook").on("click", function() {
     _paq.push(["trackEvent", "save-avatar", "facebook"]);
     $("#ava-save-facebook-progress").show();
+    $("#ava-save-facebook-progress div").show();
     $("#status").text("Đang đăng nhập...");
     FB.login(function(response) {
         if (response.status == "connected") {
@@ -199,8 +200,15 @@ $("#ava-save-facebook").on("click", function() {
                 },
                 is_default: true
             }, function(response) {
-                if (typeof response.id == "undefined"){
-                    throw new Error("Invalid response, id not found. "+JSON.stringify(response));
+                if (typeof response.error != "undefined"){
+                    if (response.error.code == "200") {
+                        $("#ava-save-facebook-progress div").hide();
+                        $("#status").html("Bạn phải đồng ý cho phép ứng dụng đăng lên Facebook của bạn.<br />\
+                                           Hãy nhấn OK để đăng nhập lại và cấp quyền cho ứng dụng.");
+                        return;
+                    } else {
+                        throw new Error("Error: "+JSON.stringify(response));
+                    }
                 }
                 
                 $("#status").text("Đang đăng ảnh...");
