@@ -30,7 +30,7 @@ _paq.push(["setDomains", ["*.lqd30.tuankiet65.moe"]]);
 _paq.push(['trackPageView']);
 _paq.push(['enableLinkTracking']);
 (function() {
-    var u = "//analytics-cabfs.rhcloud.com/";
+    var u = "//analytics-tuankiet65.rhcloud.com/";
     _paq.push(['setTrackerUrl', u + 'piwik.php']);
     _paq.push(['setSiteId', '2']);
     var d = document,
