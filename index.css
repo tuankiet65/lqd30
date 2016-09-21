@@ -1,3 +1,8 @@
+.navbar-wrapper{
+    margin: 0 auto;
+    width: 88%;
+}
+       
 .navbar-wrapper .brand-logo {
 	padding-left: 15px;
 }
@@ -23,12 +28,6 @@
 
 .cropit-image-input {
 	display: none;
-}
-
-#avatar-cropper .cropit-preview {
-	position: relative;
-	width: 230px;
-	height: 230px;
 }
 
 #overlay, #preview {
@@ -59,11 +58,6 @@
 
 #preview {
 	position: relative;
-}
-
-.cropit-preview {
-	top: 66px;
-	left: 144px;
 }
 
 .separator {
@@ -99,7 +93,7 @@
 	max-width: 250px;
 }
 
-.ava-choice:nth-child(1) {
+.ava-choice:nth-child(2n+1) {
 	margin-right: 20px;
 }
 
