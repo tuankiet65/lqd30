@@ -16,7 +16,16 @@ $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     });
 });
 
-Raven.config('https://3a4a387f63c14060a084ee158cf41b4a@sentry.io/97386').install();
+Raven.config('https://3a4a387f63c14060a084ee158cf41b4a@sentry.io/97386',{
+    whitelistUrls: [
+        "/thanhdoandanang\.org\.vn\/ava60nam\/"
+    ],
+    ignoreUrls: [
+        "/thanhdoandanang\.org\.vn\/ava60nam\/libraries\/materialize\/",
+        "/connect\.facebook\.net/",
+        "/graph\.facebook\.com/i"
+    ]
+}).install();
 
 function ravenSetUserInfo(){
     Raven.setUserContext(FB.getAuthResponse())
