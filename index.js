@@ -119,6 +119,7 @@ $("#ava-load-facebook").on('click', function() {
 })
 
 function loadAvatarFromFacebook() {
+    $("#ava-load-facebook").html("Đang load ảnh...");
     FB.api("/me/picture", {
         redirect: false,
         width: 500,
@@ -152,49 +153,53 @@ $("#ava-load-local").on('click', function() {
     $(".cropit-image-input").click();
 });
 
-function imgExport() {
+function imgExport(func) {
     var image = new Image();
     image.src = $("#avatar-cropper").cropit('export', {
         type: "image/png"
     });
 
-    var overlay = new Image();
-    overlay.src = overlaySrc;
+    image.onload = function(){
+        var overlay = new Image();
+        overlay.src = overlaySrc;
 
-    var canvas = document.createElement("canvas");
-    canvas.setAttribute("width", 600);
-    canvas.setAttribute("height", 600);
+        overlay.onload = function(){
+            var canvas = document.createElement("canvas");
+            canvas.setAttribute("width", 600);
+            canvas.setAttribute("height", 600);
 
-    var canvasContext = canvas.getContext("2d", {
-        "alpha": false
-    });
+            var canvasContext = canvas.getContext("2d", {
+                "alpha": false
+            });
 
-    canvasContext.fillStyle = "#fff",
-    canvasContext.fillRect(0, 0, 600, 600);
+            canvasContext.fillStyle = "#fff",
+            canvasContext.fillRect(0, 0, 600, 600);
 
-    canvasContext.drawImage(image, 216, 99);
-    canvasContext.drawImage(overlay, 0, 0);
-
-    return canvas.toDataURL("image/png");
+            canvasContext.drawImage(image, 216, 99);
+            canvasContext.drawImage(overlay, 0, 0);
+            
+            func(canvas.toDataURL("image/png"));
+        }
+    }
 }
 
 $("#ava-save-local").on("click", function() {
-    if (isDisabled(this))
-        return;
+    $("#ava-save-local").prop("disabled", true);
+    $("#ava-save-local").html("Đang xuất ảnh...");
     _paq.push(["trackEvent", "save-avatar", "local"]);
     filename = "LQD30 - " + Date.now().toString() + ".png";
-    if (isIOSDevice()){
-        // iOS devices doesn't support downloading file, so just open a modal
-        // containing the image and let the users save it themselves
-        $("#ios-save-result").prop("src", imgExport())
-        $("#ios-save-modal").openModal();
-    } else {
-        // For whatever reason the image has to be exported twice in Firefox
-        // The first export won't have the underlying image
-        // Dirty hack but it works so I don't care
-        imgExport();
-        download(imgExport(), filename, "image/png");
-    }
+    imgExport(function(data){
+        if (isIOSDevice()){
+            // iOS devices doesn't support downloading file, so just open a modal
+            // containing the image and let the users save it themselves
+            $("#ios-save-result").prop("src", data)
+            $("#ios-save-modal").openModal();
+        } else {
+            download(data, filename, "image/png");
+        }
+        $("#ava-save-local").prop("disabled", false);
+        $("#ava-save-local").html("<i class=\"fa fa-download\"></i> Lưu avatar về máy");
+    })
 })
 
 $("#ava-save-facebook").on("click", function() {
@@ -232,34 +237,34 @@ $("#ava-save-facebook").on("click", function() {
                 access_token = FB.getAuthResponse().accessToken;
 
                 data = new FormData();
-                imgExport();
-                data.append("source", dataURItoBlob(imgExport()));
                 data.append("message", "");
                 data.append("no_story", "true");
                 data.append("access_token", access_token);
-
-                $.ajax({
-                    url: "https://graph.facebook.com/" + album_id + "/photos",
-                    data: data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    type: "POST",
-                    dataType: "json",
-                    success: function(resp) {
-                        _paq.push(["trackEvent", "save-avatar", "facebook-success"]);
-                        $("#ava-save-facebook-progress div").hide();
-                        $("#status").text("Đã đăng ảnh, bạn sẽ được chuyển tới trong giây lát...");
-                        setTimeout(function(id){
-                            window.location = "https://facebook.com/photo.php?fbid="+id; 
-                        }, 1000, resp.id)
-                        
-                    },
-                    error: function(resp) {
-                        $("#ava-save-facebook-progress div").hide();
-                        $("#status").text("Đã gặp lỗi: "+JSON.stringify(resp));
-                        throw new Error(JSON.stringify(resp));
-                    }
+                imgExport(function(data){
+                    data.append("source", dataURItoBlob(data));
+                    $.ajax({
+                        url: "https://graph.facebook.com/" + album_id + "/photos",
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        type: "POST",
+                        dataType: "json",
+                        success: function(resp) {
+                            _paq.push(["trackEvent", "save-avatar", "facebook-success"]);
+                            $("#ava-save-facebook-progress div").hide();
+                            $("#status").text("Đã đăng ảnh, bạn sẽ được chuyển tới trong giây lát...");
+                            setTimeout(function(id){
+                                window.location = "https://facebook.com/photo.php?fbid="+id; 
+                            }, 1000, resp.id)
+                            
+                        },
+                        error: function(resp) {
+                            $("#ava-save-facebook-progress div").hide();
+                            $("#status").text("Đã gặp lỗi: "+JSON.stringify(resp));
+                            throw new Error(JSON.stringify(resp));
+                        }
+                    })
                 })
             })
         } else {
