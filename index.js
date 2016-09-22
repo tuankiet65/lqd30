@@ -178,13 +178,17 @@ function imgExport(func) {
 
             canvasContext.drawImage(image, 216, 99);
             canvasContext.drawImage(overlay, 0, 0);
-            
+
             func(canvas.toDataURL("image/png"));
         }
     }
 }
 
 $("#ava-save-local").on("click", function() {
+    if (typeof $("#avatar-cropper").cropit("export") == "undefined"){
+        Materialize.toast("Bạn phải chọn ảnh trước khi lưu avatar về máy.", 5000);
+        return;
+    }
     $("#ava-save-local").prop("disabled", true);
     $("#ava-save-local").html("Đang xuất ảnh...");
     _paq.push(["trackEvent", "save-avatar", "local"]);
@@ -305,6 +309,10 @@ $("#cropit-rotate-left").on("click", function() {
 $("#ava-save-facebook-modal-trigger").on("click", function(){
     if (isDisabled(this))
         return;
+    if (typeof $("#avatar-cropper").cropit("export") == "undefined"){
+        Materialize.toast("Bạn phải chọn ảnh trước khi đăng avatar lên Facebook.", 5000);
+        return;
+    }
     $("#ava-save-facebook-progress").hide();
     $("#ava-save-facebook-modal").openModal();
 })
