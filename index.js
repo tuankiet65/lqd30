@@ -18,10 +18,10 @@ $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
 
 Raven.config('https://3a4a387f63c14060a084ee158cf41b4a@sentry.io/97386',{
     whitelistUrls: [
-        "/thanhdoandanang\.org\.vn\/ava60nam\/"
+        "/lqd30\.tuankiet65\.moe/"
     ],
     ignoreUrls: [
-        "/thanhdoandanang\.org\.vn\/ava60nam\/libraries\/materialize\/",
+        "/lqd30\.tuankiet65\.moe\/libraries\/materialize\//",
         "/connect\.facebook\.net/",
         "/graph\.facebook\.com/i"
     ]
@@ -127,7 +127,7 @@ function loadAvatarFromFacebook() {
     }, function(response) {
         $("#avatar-cropper").cropit("imageSrc", response.data.url);
     })
-    _paq.push(["trackEvent", "load-avatar", "facebook"]);
+    trackEvent("load-avatar", "facebook");
 }
 
 $("#avatar-cropper").cropit({
@@ -149,7 +149,7 @@ $("#avatar-cropper").cropit({
 });
 
 $("#ava-load-local").on('click', function() {
-    _paq.push(["trackEvent", "load-avatar", "local"]);
+    trackEvent("load-avatar", "local");
     $(".cropit-image-input").click();
 });
 
@@ -190,7 +190,7 @@ $("#ava-save-local").on("click", function() {
     }
     $("#ava-save-local").prop("disabled", true);
     $("#ava-save-local").html("Đang xuất ảnh...");
-    _paq.push(["trackEvent", "save-avatar", "local"]);
+    trackEvent("save-avatar", "local");
     filename = "LQD30 - " + Date.now().toString() + ".png";
     imgExport(function(data){
         if (isIOSDevice()){
@@ -207,7 +207,7 @@ $("#ava-save-local").on("click", function() {
 })
 
 $("#ava-save-facebook").on("click", function() {
-    _paq.push(["trackEvent", "save-avatar", "facebook"]);
+    trackEvent("save-avatar", "facebook");
     $("#ava-save-facebook-progress").show();
     $("#ava-save-facebook-progress div").show();
     $("#status").text("Đang đăng nhập...");
@@ -255,7 +255,7 @@ $("#ava-save-facebook").on("click", function() {
                         type: "POST",
                         dataType: "json",
                         success: function(resp) {
-                            _paq.push(["trackEvent", "save-avatar", "facebook-success"]);
+                            trackEvent("save-avatar", "facebook-success");
                             $("#ava-save-facebook-progress div").hide();
                             $("#status").text("Đã đăng ảnh, bạn sẽ được chuyển tới trong giây lát...");
                             setTimeout(function(id){
@@ -321,15 +321,15 @@ $('.button-collapse').sideNav();
 $("#ava-choose-overlay-blue-drop").on("click", function(){
     overlaySrc = "img/blue_drop.png";
     $("#overlay").prop("src", overlaySrc);
-    _paq.push(["trackEvent", "overlay", "blue-drop"]);
+    trackEvent("overlay", "blue-drop");
     $("#ava-choose-overlay-modal").closeModal();
 })
 
 $("#ava-choose-overlay-material").on("click", function(){
     overlaySrc = "img/material.png";
     $("#overlay").prop("src", overlaySrc);
-    _paq.push(["trackEvent", "overlay", "material"]);
     $("#ava-choose-overlay-modal").closeModal();
+    trackEvent("overlay", "material");
 })
 
 $(function(){    
@@ -344,3 +344,8 @@ function isIOSDevice(){
 }
 
 $("#ava-choose-overlay-trigger").leanModal();
+
+function trackEvent(name, param){
+    _paq.push(["trackEvent", name, param]);
+    // TODO: Facebook App Events
+}
