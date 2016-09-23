@@ -21,7 +21,7 @@ Raven.config('https://2c3a5ecc1b4846df92ee0362356bc587@sentry.io/99860', {
         "/thanhdoandanang\.org\.vn\/ava60nam\/"
     ],
     ignoreUrls: [
-        "/thanhdoandanang\.org\.vn\/ava60nam\/libraries\/materialize\/",
+        "/thanhdoandanang\.org\.vn\/ava60nam\/libraries\/materialize\//",
         "/connect\.facebook\.net/",
         "/graph\.facebook\.com/i"
     ]
