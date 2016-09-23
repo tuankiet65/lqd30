@@ -18,10 +18,12 @@ $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
 
 Raven.config('https://2c3a5ecc1b4846df92ee0362356bc587@sentry.io/99860', {
     whitelistUrls: [
-        "/www\.thanhdoandanang\.org\.vn\/ava60nam\/"
+        "/www\.thanhdoandanang\.org\.vn\/ava60nam\/",
+        "/thanhdoandanang\.org\.vn\/ava60nam\/"
     ],
     ignoreUrls: [
         "/www\.thanhdoandanang\.org\.vn\/ava60nam\/libraries\/materialize\//",
+        "/thanhdoandanang\.org\.vn\/ava60nam\/libraries\/materialize\//",
         "/connect\.facebook\.net/",
         "/graph\.facebook\.com/i"
     ]
@@ -176,7 +178,7 @@ function imgExport(func) {
             canvasContext.fillStyle = "#fff",
             canvasContext.fillRect(0, 0, 600, 600);
 
-            canvasContext.drawImage(image, 216, 99);
+            canvasContext.drawImage(image, 0, 0);
             canvasContext.drawImage(overlay, 0, 0);
 
             func(canvas.toDataURL("image/png"));
