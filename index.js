@@ -193,11 +193,11 @@ $("#ava-save-local").on("click", function() {
     trackEvent("save-avatar", "local");
     filename = "LQD30 - " + Date.now().toString() + ".png";
     imgExport(function(data){
-        if (isIOSDevice()){
-            // iOS devices doesn't support downloading file, so just open a modal
+        if (needToFallback()){
+            // Some browsers doesn't support downloading file, so just open a modal
             // containing the image and let the users save it themselves
-            $("#ios-save-result").prop("src", data)
-            $("#ios-save-modal").openModal();
+            $("#fallback-save-result").prop("src", data)
+            $("#fallback-save-modal").openModal();
         } else {
             download(data, filename, "image/png");
         }
@@ -244,8 +244,8 @@ $("#ava-save-facebook").on("click", function() {
                 data.append("message", "");
                 data.append("no_story", "true");
                 data.append("access_token", access_token);
-                imgExport(function(data){
-                    data.append("source", dataURItoBlob(data));
+                imgExport(function(imgData){
+                    data.append("source", dataURItoBlob(imgData));
                     $.ajax({
                         url: "https://graph.facebook.com/" + album_id + "/photos",
                         data: data,
@@ -338,9 +338,13 @@ $(function(){
     }, 250);
 })
 
-function isIOSDevice(){
-    // If the device is running iOS
-    return (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream)
+function needToFallback(){
+    // Detect if the app should download or open a modal containing the image
+    // and let the user download themselves
+    // Target:
+    //  - UC Browser
+    //  - Safari on iOS
+    return (/iPad|iPhone|iPod|UCBrowser/.test(navigator.userAgent) && !window.MSStream)
 }
 
 $("#ava-choose-overlay-trigger").leanModal();
