@@ -127,7 +127,7 @@ function loadAvatarFromFacebook() {
     }, function(response) {
         $("#avatar-cropper").cropit("imageSrc", response.data.url);
     })
-    _paq.push(["trackEvent", "load-avatar", "facebook"]);
+    trackEvent("load-avatar", "facebook");
 }
 
 $("#avatar-cropper").cropit({
@@ -150,7 +150,7 @@ $("#avatar-cropper").cropit({
 });
 
 $("#ava-load-local").on('click', function() {
-    _paq.push(["trackEvent", "load-avatar", "local"]);
+    trackEvent("load-avatar", "local");
     $(".cropit-image-input").click();
 });
 
@@ -191,7 +191,7 @@ $("#ava-save-local").on("click", function() {
     }
     $("#ava-save-local").prop("disabled", true);
     $("#ava-save-local").html("Đang xuất ảnh...");
-    _paq.push(["trackEvent", "save-avatar", "local"]);
+    trackEvent("save-avatar", "local");
     filename = "LQD30 - " + Date.now().toString() + ".png";
     imgExport(function(data){
         if (isIOSDevice()){
@@ -208,7 +208,7 @@ $("#ava-save-local").on("click", function() {
 })
 
 $("#ava-save-facebook").on("click", function() {
-    _paq.push(["trackEvent", "save-avatar", "facebook"]);
+    trackEvent("save-avatar", "facebook");
     $("#ava-save-facebook-progress").show();
     $("#ava-save-facebook-progress div").show();
     $("#status").text("Đang đăng nhập...");
@@ -256,7 +256,7 @@ $("#ava-save-facebook").on("click", function() {
                         type: "POST",
                         dataType: "json",
                         success: function(resp) {
-                            _paq.push(["trackEvent", "save-avatar", "facebook-success"]);
+                            trackEvent("save-avatar", "facebook-success");
                             $("#ava-save-facebook-progress div").hide();
                             $("#status").text("Đã đăng ảnh, bạn sẽ được chuyển tới trong giây lát...");
                             setTimeout(function(id){
@@ -324,8 +324,8 @@ $(".ava-choice").on("click", function(){
     overlayNum = $(this).data("overlay-id");
     overlaySrc = "img/ava"+overlayNum+".png";
     $("#overlay").prop("src", overlaySrc);
-    _paq.push(["trackEvent", "overlay", overlayNum]);
     $("#ava-choose-overlay-modal").closeModal();
+    trackEvent("overlay", overlayNum);
 })
 
 $(function(){    
@@ -340,3 +340,8 @@ function isIOSDevice(){
 }
 
 $("#ava-choose-overlay-trigger").leanModal();
+
+function trackEvent(name, param){
+    _paq.push(["trackEvent", name, param]);
+    // TODO: Facebook App Events
+}
