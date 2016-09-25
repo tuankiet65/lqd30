@@ -194,7 +194,7 @@ $("#ava-save-local").on("click", function() {
     $("#ava-save-local").prop("disabled", true);
     $("#ava-save-local").html("Đang xuất ảnh...");
     trackEvent("save-avatar", "local");
-    filename = "LQD30 - " + Date.now().toString() + ".png";
+    filename = "TD60 - " + Date.now().toString() + ".png";
     imgExport(function(data){
         if (needToFallback()){
             // Some browsers doesn't support downloading file, so just open a modal
@@ -218,7 +218,7 @@ $("#ava-save-facebook").on("click", function() {
         if (response.status == "connected") {
             $("#status").text("Đang tạo album...");
             FB.api("/me/albums", "POST", {
-                name: "LQD30",
+                name: "TD60",
                 privacy: {
                     value: "EVERYONE"
                 },
