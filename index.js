@@ -344,7 +344,8 @@ function needToFallback(){
     // Target:
     //  - UC Browser
     //  - Safari on iOS
-    return (/iPad|iPhone|iPod|UCBrowser/.test(navigator.userAgent) && !window.MSStream)
+    //  - IE Mobile / Edge Mobile
+    return (/iPad|iPhone|iPod|UCBrowser|Windows Phone|IEMobile/.test(navigator.userAgent))
 }
 
 $("#ava-choose-overlay-trigger").leanModal();
