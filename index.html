@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="index.css">
     </head>
     <body>
-        <div class="navbar-fixed">
+        <header class="navbar-fixed">
             <nav class="light-blue lighten-1" role="navigation">
                 <div class="navbar-wrapper container">
                     <a href="/" class="brand-logo">Thành đoàn 60 năm avatar</a>
@@ -30,8 +30,8 @@
                     </ul>
                 </div>
             </nav>
-        </div>
-        <div class="container">
+        </header>
+        <main class="container">
             <h1 class="center-align orange-text">Đổi avatar</h1>
             <div class="row">
                 <div class="col l7">
@@ -95,7 +95,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </main>
         <div id="ava-save-facebook-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>Đăng avatar lên Facebook</h4>
@@ -129,18 +129,22 @@
         <div id="ava-choose-overlay-modal" class="modal modal-fixed-footer">
             <div class="modal-content">
                 <h4>Chọn khung</h4>
-                <div class="center">
-                    <div class="card-panel white hoverable ava-choice" data-overlay-id="1">
-                        <img src="img/ava1.png" />
+                <div class="row center">
+                    <div class="col m6">
+                        <div class="card-panel white hoverable ava-choice" data-overlay-id="1">
+                            <img src="img/ava1.png" />
+                        </div>
+                        <div class="card-panel white hoverable ava-choice" data-overlay-id="3">
+                            <img src="img/ava3.png" />
+                        </div>
                     </div>
-                    <div class="card-panel white hoverable ava-choice" data-overlay-id="2">
-                        <img src="img/ava2.png" />
-                    </div>
-                    <div class="card-panel white hoverable ava-choice" data-overlay-id="3">
-                        <img src="img/ava3.png" />
-                    </div>
-                    <div class="card-panel white hoverable ava-choice" data-overlay-id="4">
-                        <img src="img/ava4.png" />
+                    <div class="col m6">
+                        <div class="card-panel white hoverable ava-choice" data-overlay-id="2">
+                            <img src="img/ava2.png" />
+                        </div>
+                        <div class="card-panel white hoverable ava-choice" data-overlay-id="4">
+                            <img src="img/ava4.png" />
+                        </div>
                     </div>
                 </div>
             </div>
