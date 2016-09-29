@@ -291,10 +291,19 @@ function dataURItoBlob(dataURI) {
         ia[i] = byteString.charCodeAt(i);
     }
 
-    var blob = new Blob([ab], {
-        type: mimeString
-    });
-    return blob;
+    try {
+        return new Blob([ab], {
+            type: mimeString
+        });
+    } catch (e){
+        // Fallback for browser that do not support Blob constructor:
+        // ex: UC Browser
+        blobBuilder = window.BlobBuilder || window.WebKitBlobBuilder ||
+                      window.MozBlobBuilder || window.MSBlobBuilder;
+        var blob = new blobBuilder();
+        blob.append(ab);
+        return blob.getBlob(mimeString);
+    }
 }
 
 $("#cropit-rotate-right").on("click", function() {
@@ -332,7 +341,7 @@ $("#ava-choose-overlay-material").on("click", function(){
     trackEvent("overlay", "material");
 })
 
-$(function(){    
+$(function(){
     setTimeout(function(){
         $("#ava-choose-overlay-modal").openModal();
     }, 250);
