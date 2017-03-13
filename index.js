@@ -1,4 +1,4 @@
-var overlaySrc = "img/ava1.png";
+var overlaySrc = "img/material.png";
 
 /*******************
     Raven configuration
@@ -16,18 +16,16 @@ $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
     });
 });
 
-Raven.config('https://2c3a5ecc1b4846df92ee0362356bc587@sentry.io/99860', {
+Raven.config('https://3a4a387f63c14060a084ee158cf41b4a@sentry.io/97386',{
     whitelistUrls: [
-        "/www\.thanhdoandanang\.org\.vn\/ava60nam\/",
-        "/thanhdoandanang\.org\.vn\/ava60nam\/"
+        "/lqd30\.tuankiet65\.moe/"
     ],
     ignoreUrls: [
-        "/www\.thanhdoandanang\.org\.vn\/ava60nam\/libraries\/materialize\//",
-        "/thanhdoandanang\.org\.vn\/ava60nam\/libraries\/materialize\//",
+        "/lqd30\.tuankiet65\.moe\/libraries\/materialize\//",
         "/connect\.facebook\.net/",
         "/graph\.facebook\.com/i"
     ]
-}).install()
+}).install();
 
 function ravenSetUserInfo(){
     Raven.setUserContext(FB.getAuthResponse())
@@ -37,21 +35,21 @@ function ravenSetUserInfo(){
     Piwik configuration
 *******************/
 var _paq = _paq || [];
-_paq.push(["setDomains", ["*.thanhdoandanang.org.vn/ava60nam"]]);
+_paq.push(["setDomains", ["*.lqd30.tuankiet65.moe"]]);
 _paq.push(['trackPageView']);
 _paq.push(['enableLinkTracking']);
 (function() {
-    var u="//analytics-tuankiet65.rhcloud.com/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', '4']);
-    var d=document,
-        g=d.createElement('script'),
-        s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript';
-    g.async=true;
-    g.defer=true;
-    g.src=u+'piwik.js';
-    s.parentNode.insertBefore(g,s);
+    var u = "//analytics-tuankiet65.rhcloud.com/";
+    _paq.push(['setTrackerUrl', u + 'piwik.php']);
+    _paq.push(['setSiteId', '2']);
+    var d = document,
+        g = d.createElement('script'),
+        s = d.getElementsByTagName('script')[0];
+    g.type = 'text/javascript';
+    g.async = true;
+    g.defer = true;
+    g.src = u + 'piwik.js';
+    s.parentNode.insertBefore(g, s);
 })();
 
 /*******************
@@ -73,7 +71,7 @@ _paq.push(['enableLinkTracking']);
 // Function to call after initialization
 window.fbAsyncInit = function() {
     FB.init({
-        appId: '1822723244631116',
+        appId: '789687234501641',
         xfbml: false,
         version: 'v2.7',
         status: true,
@@ -124,8 +122,8 @@ function loadAvatarFromFacebook() {
     $("#ava-load-facebook").html("Đang load ảnh...");
     FB.api("/me/picture", {
         redirect: false,
-        width: 600,
-        height: 600
+        width: 500,
+        height: 500
     }, function(response) {
         $("#avatar-cropper").cropit("imageSrc", response.data.url);
     })
@@ -133,11 +131,10 @@ function loadAvatarFromFacebook() {
 }
 
 $("#avatar-cropper").cropit({
-    width: 400,
-    height: 400,
+    width: 230,
+    height: 230,
     minZoom: "fill",
     maxZoom: 2,
-    freeMove: true,
     smallImage: "stretch",
     exportZoom: 1.5,
     onImageLoaded: function(){
@@ -178,7 +175,7 @@ function imgExport(func) {
             canvasContext.fillStyle = "#fff",
             canvasContext.fillRect(0, 0, 600, 600);
 
-            canvasContext.drawImage(image, 0, 0);
+            canvasContext.drawImage(image, 216, 99);
             canvasContext.drawImage(overlay, 0, 0);
 
             func(canvas.toDataURL("image/png"));
@@ -194,7 +191,7 @@ $("#ava-save-local").on("click", function() {
     $("#ava-save-local").prop("disabled", true);
     $("#ava-save-local").html("Đang xuất ảnh...");
     trackEvent("save-avatar", "local");
-    filename = "TD60 - " + Date.now().toString() + ".png";
+    filename = "LQD30 - " + Date.now().toString() + ".png";
     imgExport(function(data){
         if (needToFallback()){
             // Some browsers doesn't support downloading file, so just open a modal
@@ -218,7 +215,7 @@ $("#ava-save-facebook").on("click", function() {
         if (response.status == "connected") {
             $("#status").text("Đang tạo album...");
             FB.api("/me/albums", "POST", {
-                name: "TD60",
+                name: "LQD30",
                 privacy: {
                     value: "EVERYONE"
                 },
@@ -330,16 +327,21 @@ $("#ava-save-facebook-modal-trigger").on("click", function(){
 
 $('.button-collapse').sideNav();
 
-
-$(".ava-choice").on("click", function(){
-    overlayNum = $(this).data("overlay-id");
-    overlaySrc = "img/ava"+overlayNum+".png";
+$("#ava-choose-overlay-blue-drop").on("click", function(){
+    overlaySrc = "img/blue_drop.png";
     $("#overlay").prop("src", overlaySrc);
+    trackEvent("overlay", "blue-drop");
     $("#ava-choose-overlay-modal").closeModal();
-    trackEvent("overlay", overlayNum);
 })
 
-$(function(){    
+$("#ava-choose-overlay-material").on("click", function(){
+    overlaySrc = "img/material.png";
+    $("#overlay").prop("src", overlaySrc);
+    $("#ava-choose-overlay-modal").closeModal();
+    trackEvent("overlay", "material");
+})
+
+$(function(){
     setTimeout(function(){
         $("#ava-choose-overlay-modal").openModal();
     }, 250);
